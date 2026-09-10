@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #FBF5EF; }
+  a { color: #C06A43; text-decoration: none; }
+  a:hover { color: #9E5230; }
+  button { font: inherit; }
+  @keyframes numiFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+  @keyframes numiIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes numiSheet { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</helmet>
+
+<div style="font-family: 'Hanken Grotesk', system-ui, sans-serif; color: #2A211C; background: #FBF5EF; min-height: 100vh;">
+
+  <nav ref="{{ navRef }}" style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: rgba(251,245,239,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid #EBE1D6;">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 14px 22px; display: flex; align-items: center; gap: 16px; flex-wrap: nowrap;">
+      <button onClick="{{ goHome }}" style="background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; flex: 0 0 auto;">
+        <img src="numi-logo.svg" alt="NUMI" style="height: 21px; width: auto; display: block;">
+      </button>
+      <div style="display: flex; align-items: center; gap: 20px; flex: 1 1 auto; flex-wrap: nowrap; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; -webkit-overflow-scrolling: touch;">
+        <button onClick="{{ viewHome }}" style="background: none; border: none; padding: 4px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; white-space: nowrap; flex: 0 0 auto; color: {{ inkHome }}; border-bottom: 2px solid {{ lineHome }}; transition: color 180ms ease, border-color 180ms ease;" style-hover="color: #2A211C;">Home</button>
+        <button onClick="{{ viewDo }}" style="background: none; border: none; padding: 4px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; white-space: nowrap; flex: 0 0 auto; color: {{ inkDo }}; border-bottom: 2px solid {{ lineDo }}; transition: color 180ms ease, border-color 180ms ease;" style-hover="color: #2A211C;">What We Do</button>
+        <button onClick="{{ viewWork }}" style="background: none; border: none; padding: 4px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; white-space: nowrap; flex: 0 0 auto; color: {{ inkWork }}; border-bottom: 2px solid {{ lineWork }}; transition: color 180ms ease, border-color 180ms ease;" style-hover="color: #2A211C;">What We've Fixed</button>
+        <button onClick="{{ viewProcess }}" style="background: none; border: none; padding: 4px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; white-space: nowrap; flex: 0 0 auto; color: {{ inkProcess }}; border-bottom: 2px solid {{ lineProcess }}; transition: color 180ms ease, border-color 180ms ease;" style-hover="color: #2A211C;">Process</button>
+        <button onClick="{{ viewAbout }}" style="background: none; border: none; padding: 4px 0; cursor: pointer; font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em; white-space: nowrap; flex: 0 0 auto; color: {{ inkAbout }}; border-bottom: 2px solid {{ lineAbout }}; transition: color 180ms ease, border-color 180ms ease;" style-hover="color: #2A211C;">About</button>
+      </div>
+      <button onClick="{{ book }}" style="background: #241C18; color: #FBF5EF; border: none; border-radius: 999px; padding: 11px 19px; font-weight: 700; font-size: 14.5px; cursor: pointer; flex: 0 0 auto; white-space: nowrap; transition: transform 180ms ease, background 180ms ease;" style-hover="background: #3A2C24; transform: translateY(-1px);" style-active="transform: translateY(1px);">Book a free call</button>
+    </div>
+  </nav>
+
+  <main style="padding: 22px 22px 64px; padding-top: {{ mainTop }}; max-width: 1180px; margin: 0 auto;">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div style="animation: numiIn 300ms ease both; display: flex; flex-direction: column; gap: 76px;">
+
+        <section style="position: relative; overflow: hidden; background: #241C18; border-radius: 26px; padding: clamp(30px, 5vw, 68px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; align-items: center; margin-top: 12px;">
+          <div style="position: absolute; top: -140px; right: -90px; width: 420px; height: 420px; border-radius: 999px; background: #2E251F; pointer-events: none;"></div>
+          <div style="position: relative; display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+            <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">Build · Improve · Grow</span>
+            <h1 style="font-weight: 700; font-size: clamp(36px, 5.6vw, 62px); line-height: 1.04; letter-spacing: -0.025em; margin: 0; color: #FBF5EF; text-wrap: pretty;">Build. Improve. Grow.<br><span style="font-family: Newsreader, Georgia, serif; font-style: italic; font-weight: 400; color: #F6CB96; letter-spacing: -0.01em;">Through technology.</span></h1>
+            <p style="font-size: clamp(16.5px, 1.6vw, 19px); line-height: 1.6; margin: 0; max-width: 27em; color: #D9CDC3;">NUMI helps businesses turn ideas into products — and makes existing businesses easier to run.</p>
+            <div style="display: flex; flex-direction: column; gap: 11px; align-items: flex-start; margin-top: 8px;">
+              <button onClick="{{ book }}" style="background: #F6CB96; color: #241C18; border: none; border-radius: 999px; padding: 16px 28px; font-weight: 700; font-size: 17px; cursor: pointer; transition: transform 180ms ease, background 180ms ease;" style-hover="background: #FAD8AE; transform: translateY(-2px);" style-active="transform: translateY(1px);">Book a Free Discovery Call</button>
+              <span style="font-size: 15px; color: #A6968B;">No pitch. No jargon. Just a conversation.</span>
+            </div>
+          </div>
+          <div style="position: relative; display: flex; justify-content: center; min-width: 0;">
+            <img src="numi-logo.svg" alt="NUMI" style="width: 100%; max-width: 340px; height: auto; animation: numiFloat 7s ease-in-out infinite;">
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 20px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">Two starting points</span>
+          <h2 style="font-weight: 700; font-size: clamp(27px, 3.6vw, 40px); line-height: 1.1; letter-spacing: -0.022em; margin: 0;">Wherever you are, technology can help.</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 6px;">
+
+            <div onClick="{{ pickNew }}" style="background: #F6CB96; border-radius: 22px; padding: 30px; cursor: pointer; display: flex; flex-direction: column; gap: 15px; min-width: 0; transition: transform 200ms ease, box-shadow 200ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 14px 30px rgba(90,60,40,0.13);">
+              <p style="font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0; color: #4A3626; line-height: 1.5;">Starting<br>something new</p>
+              <div style="width: 44px; height: 3px; background: #241C18; border-radius: 999px;"></div>
+              <p style="font-weight: 700; font-size: clamp(20px, 2.2vw, 25px); line-height: 1.25; letter-spacing: -0.015em; margin: 0; color: #241C18;">“I have an idea, and I don't know what it takes to build it.”</p>
+              <p style="font-size: 16px; line-height: 1.7; margin: 0; color: #5A4227;">“I need an MVP.”<br>“I have designs, but not a developer.”<br>“I don't know what to build first.”</p>
+              <sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(36,28,24,0.16); padding-top: 18px; animation: numiIn 240ms ease both;">
+                  <p style="font-size: 16.5px; line-height: 1.65; margin: 0; color: #33261C;">We start by turning what's in your head into a plan: who it's for, what it does, and what has to exist in version one. Then we design it, build it, and launch it.</p>
+                  <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 18px; line-height: 1.5; margin: 0; color: #6B4A2A;">Problem → Users → Journeys → Features → Scope → MVP</p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button onClick="{{ book }}" style="background: #241C18; color: #FBF5EF; border: none; border-radius: 999px; padding: 13px 21px; font-weight: 700; font-size: 15px; cursor: pointer; transition: transform 180ms ease;" style-hover="transform: translateY(-2px);">Book a Free Discovery Call</button>
+                    <button onClick="{{ openPitch }}" style="background: transparent; color: #241C18; border: 1.5px solid rgba(36,28,24,0.3); border-radius: 999px; padding: 13px 21px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background 180ms ease;" style-hover="background: rgba(255,255,255,0.45);">See a product we built →</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ notNew }}" hint-placeholder-val="{{ true }}">
+                <span style="font-weight: 700; font-size: 15px; color: #8A5A2E;">That's me →</span>
+              </sc-if>
+            </div>
+
+            <div onClick="{{ pickExisting }}" style="background: #241C18; border-radius: 22px; padding: 30px; cursor: pointer; display: flex; flex-direction: column; gap: 15px; min-width: 0; transition: transform 200ms ease, box-shadow 200ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 14px 30px rgba(36,28,24,0.22);">
+              <p style="font-weight: 800; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0; color: #F6CB96; line-height: 1.5;">Running<br>something existing</p>
+              <div style="width: 44px; height: 3px; background: #DE8B67; border-radius: 999px;"></div>
+              <p style="font-weight: 700; font-size: clamp(20px, 2.2vw, 25px); line-height: 1.25; letter-spacing: -0.015em; margin: 0; color: #FBF5EF;">“It works, but the way it works is costing me time.”</p>
+              <p style="font-size: 16px; line-height: 1.7; margin: 0; color: #C6B8AD;">“We're doing too much manually.”<br>“Our systems don't talk to each other.”<br>“Everything depends on me.”</p>
+              <sc-if value="{{ isExisting }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 14px; border-top: 1px solid rgba(251,245,239,0.18); padding-top: 18px; animation: numiIn 240ms ease both;">
+                  <p style="font-size: 16.5px; line-height: 1.65; margin: 0; color: #E6DCD4;">We walk your process end to end and find the seams — the double entry, the copy-paste, the thing only you can do. Then we connect, automate, or build, in that order.</p>
+                  <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 18px; line-height: 1.5; margin: 0; color: #F6CB96;">Your business shouldn't need five tabs and a spreadsheet to get one thing done.</p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <button onClick="{{ book }}" style="background: #F6CB96; color: #241C18; border: none; border-radius: 999px; padding: 13px 21px; font-weight: 700; font-size: 15px; cursor: pointer; transition: transform 180ms ease;" style-hover="transform: translateY(-2px);">Book a Free Discovery Call</button>
+                    <button onClick="{{ openClinic }}" style="background: transparent; color: #FBF5EF; border: 1.5px solid rgba(251,245,239,0.35); border-radius: 999px; padding: 13px 21px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background 180ms ease;" style-hover="background: rgba(251,245,239,0.1);">See a workflow we simplified →</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ notExisting }}" hint-placeholder-val="{{ true }}">
+                <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">That's me →</span>
+              </sc-if>
+            </div>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 18px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">Our approach</span>
+          <h2 style="font-weight: 700; font-size: clamp(27px, 3.6vw, 40px); line-height: 1.1; letter-spacing: -0.022em; margin: 0;">We don't start with technology.<br><span style="font-family: Newsreader, Georgia, serif; font-style: italic; font-weight: 400; color: #C06A43;">We start with the problem.</span></h2>
+          <p style="font-size: 18px; line-height: 1.7; margin: 0; max-width: 42em; color: #5F534B;">Whether you're launching something new or improving something that already exists, NUMI first understands what you're trying to accomplish. Then we determine the right technology solution.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 6px;">
+            <span style="background: #241C18; color: #FBF5EF; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 15.5px; transition: transform 180ms ease;" style-hover="transform: translateY(-2px);">Your goal</span>
+            <span style="color: #C06A43; font-size: 17px;">→</span>
+            <span style="background: #F6CB96; color: #241C18; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 15.5px; transition: transform 180ms ease;" style-hover="transform: translateY(-2px);">What's in the way</span>
+            <span style="color: #C06A43; font-size: 17px;">→</span>
+            <span style="background: #EDE6DE; color: #2A211C; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 15.5px; transition: transform 180ms ease;" style-hover="transform: translateY(-2px);">The right build</span>
+          </div>
+          <button onClick="{{ viewDo }}" style="align-self: flex-start; margin-top: 14px; background: transparent; color: #241C18; border: 1.5px solid #DDD0C3; border-radius: 999px; padding: 13px 21px; font-weight: 600; font-size: 15.5px; cursor: pointer; transition: background 180ms ease, transform 180ms ease;" style-hover="background: #F2E9E0; transform: translateY(-2px);">How we decide →</button>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDo }}" hint-placeholder-val="{{ false }}">
+      <div style="animation: numiIn 300ms ease both; display: flex; flex-direction: column; gap: 64px; padding-top: 16px;">
+        <section style="display: flex; flex-direction: column; gap: 18px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">What NUMI does</span>
+          <h1 style="font-weight: 700; font-size: clamp(32px, 4.8vw, 54px); line-height: 1.03; letter-spacing: -0.028em; margin: 0;">Build. Modernize. Grow.</h1>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 6px;">
+            <div style="background: #F6CB96; border-radius: 18px; padding: 24px 28px; display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 24px; align-items: baseline; transition: transform 200ms ease;" style-hover="transform: translateX(4px);">
+              <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0; color: #241C18;">Build</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #4A3626;">Turn ideas into digital products and software — from definition and UX through launch.</p>
+            </div>
+            <div style="background: #DE8B67; border-radius: 18px; padding: 24px 28px; display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 24px; align-items: baseline; transition: transform 200ms ease;" style-hover="transform: translateX(4px);">
+              <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0; color: #241C18;">Modernize</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #3A241A;">Improve the workflows, systems, and operations a business already runs on.</p>
+            </div>
+            <div style="background: #241C18; border-radius: 18px; padding: 24px 28px; display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 24px; align-items: baseline; transition: transform 200ms ease;" style-hover="transform: translateX(4px);">
+              <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0; color: #F6CB96;">Grow</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #D9CDC3;">Add automation, integrations, and infrastructure for whatever comes next.</p>
+            </div>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 18px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">How we solve it</span>
+          <h2 style="font-weight: 700; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -0.022em; margin: 0; max-width: 26em;">The right solution isn't always a custom app.</h2>
+          <div style="display: flex; flex-direction: column; margin-top: 8px; border-top: 1px solid #E4D9CD;">
+            <div style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 4px 24px; padding: 18px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+              <p style="font-weight: 800; font-size: 14.5px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Connect</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Use the tools you already have, wired together properly.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 4px 24px; padding: 18px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+              <p style="font-weight: 800; font-size: 14.5px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Enhance</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Automate, integrate, and extend what's already working.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 4px 24px; padding: 18px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+              <p style="font-weight: 800; font-size: 14.5px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Build</p>
+              <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Create custom software when the right solution doesn't already exist.</p>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; margin-top: 10px;">
+            <div style="background: #F6CB96; border-radius: 18px; padding: 22px 24px; min-width: 0;">
+              <p style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #6B4A2A; margin: 0 0 10px;">A legitimate NUMI solution</p>
+              <p style="font-weight: 700; font-size: 19px; line-height: 1.4; margin: 0; color: #241C18;">Shopify + Calendly + Stripe + automation</p>
+            </div>
+            <div style="background: #241C18; border-radius: 18px; padding: 22px 24px; min-width: 0;">
+              <p style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #DE8B67; margin: 0 0 10px;">Also a legitimate NUMI solution</p>
+              <p style="font-weight: 700; font-size: 19px; line-height: 1.4; margin: 0; color: #FBF5EF;">Custom web application + database + APIs</p>
+            </div>
+          </div>
+          <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.55; margin: 12px 0 0; max-width: 34em; color: #6B4A2A;">We choose the technology based on the problem — not the other way around.</p>
+          <button onClick="{{ book }}" style="align-self: flex-start; margin-top: 10px; background: #241C18; color: #FBF5EF; border: none; border-radius: 999px; padding: 15px 25px; font-weight: 700; font-size: 16.5px; cursor: pointer; transition: transform 180ms ease, background 180ms ease;" style-hover="background: #3A2C24; transform: translateY(-2px);">Book a Free Discovery Call</button>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
+      <div style="animation: numiIn 300ms ease both; display: flex; flex-direction: column; gap: 30px; padding-top: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">What we've fixed</span>
+          <h1 style="font-weight: 700; font-size: clamp(32px, 4.8vw, 54px); line-height: 1.03; letter-spacing: -0.028em; margin: 0;">Problems, and what changed.</h1>
+          <p style="font-size: 18px; line-height: 1.7; margin: 0; max-width: 38em; color: #5F534B;">Every project starts as a business problem. Here's what was in the way, and what happened next.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px;">
+          <sc-for list="{{ studies }}" as="s" hint-placeholder-count="3">
+            <div onClick="{{ s.open }}" style="background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 22px; padding: 28px; cursor: pointer; display: flex; flex-direction: column; gap: 14px; min-width: 0; transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;" style-hover="transform: translateY(-3px); box-shadow: 0 16px 34px rgba(90,60,40,0.1); border-color: #DDCBB8;">
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; background: #F3EBE2; color: #6F6158; border-radius: 999px; padding: 7px 12px;">{{ s.kind }}</span>
+                <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; background: #F9DFC4; color: #8A5A2E; border-radius: 999px; padding: 7px 12px;">{{ s.tag }}</span>
+              </div>
+              <p style="font-weight: 700; font-size: clamp(19px, 2vw, 24px); line-height: 1.28; letter-spacing: -0.018em; margin: 0;">{{ s.headline }}</p>
+              <p style="font-size: 16.5px; line-height: 1.65; margin: 0; color: #5F534B;">{{ s.teaser }}</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; border-top: 1px solid #EFE6DC; padding-top: 14px; margin-top: 2px;">
+                <span style="font-weight: 700; font-size: 14.5px; color: #2A211C;">{{ s.name }}</span>
+                <span style="font-weight: 700; font-size: 14.5px; color: #C06A43; white-space: nowrap;">Read the story →</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isProcess }}" hint-placeholder-val="{{ false }}">
+      <div style="animation: numiIn 300ms ease both; display: flex; flex-direction: column; gap: 26px; padding-top: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">Process</span>
+          <h1 style="font-weight: 700; font-size: clamp(32px, 4.8vw, 54px); line-height: 1.03; letter-spacing: -0.028em; margin: 0;">A clear path from problem to solution.</h1>
+          <p style="font-size: 18px; line-height: 1.7; margin: 0; max-width: 36em; color: #5F534B;">Nobody starts coding on day one.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; border-top: 1px solid #E4D9CD;">
+          <div style="display: grid; grid-template-columns: 54px minmax(0, 170px) minmax(0, 1fr); gap: 4px 20px; align-items: baseline; padding: 20px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+            <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">01</span>
+            <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Discover</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Understand your business, idea, users, and goals.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 54px minmax(0, 170px) minmax(0, 1fr); gap: 4px 20px; align-items: baseline; padding: 20px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+            <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">02</span>
+            <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Define</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Identify requirements and what needs to be built or improved.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 54px minmax(0, 170px) minmax(0, 1fr); gap: 4px 20px; align-items: baseline; padding: 20px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+            <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">03</span>
+            <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Design</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Create the experience, workflow, and technical solution.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 54px minmax(0, 170px) minmax(0, 1fr); gap: 4px 20px; align-items: baseline; padding: 20px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+            <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">04</span>
+            <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Implement</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Connect, enhance, configure, or build the technology.</p>
+          </div>
+          <div style="display: grid; grid-template-columns: 54px minmax(0, 170px) minmax(0, 1fr); gap: 4px 20px; align-items: baseline; padding: 20px 4px; border-bottom: 1px solid #E4D9CD; transition: background 180ms ease, padding-left 180ms ease;" style-hover="background: #F5EDE4; padding-left: 12px;">
+            <span style="font-weight: 700; font-size: 15px; color: #DE8B67;">05</span>
+            <p style="font-weight: 800; font-size: 15px; letter-spacing: 0.13em; text-transform: uppercase; margin: 0;">Launch</p>
+            <p style="font-size: 17px; line-height: 1.6; margin: 0; color: #5F534B;">Test, launch, train, and support.</p>
+          </div>
+        </div>
+        <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.55; margin: 6px 0 0; color: #6B4A2A; max-width: 34em;">Not every project needs every step. The method flexes to the solution.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+      <div style="animation: numiIn 300ms ease both; display: flex; flex-direction: column; gap: 56px; padding-top: 16px;">
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 30px; align-items: start;">
+          <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0;">
+            <span style="font-weight: 800; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #DE8B67;">Who you'd be working with</span>
+            <h1 style="font-weight: 700; font-size: clamp(32px, 4.8vw, 52px); line-height: 1.03; letter-spacing: -0.028em; margin: 0;">Addy Hebou</h1>
+            <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 21px; margin: 0; color: #C06A43;">Founder &amp; Lead Developer, NUMI</p>
+            <p style="font-size: 18px; line-height: 1.7; margin: 0; max-width: 32em; color: #4A403A;">I build web and mobile products, internal tools, and the systems businesses run on. Before NUMI, I spent my time building software used by a lot of people at once — which is mostly where I learned to ask what a thing is for before building it.</p>
+            <p style="font-size: 16.5px; line-height: 1.6; margin: 0; color: #5F534B;">B.S. Computer Science — New York University, Tandon School of Engineering</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;">
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">Web Applications</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">Software Development</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">UX/UI</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">Integrations</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">Automation</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">AI</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">APIs</span>
+              <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">Databases</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+            <div style="background: repeating-linear-gradient(135deg, #F3EBE2 0 10px, #F8F2EA 10px 20px); border: 1px solid #EBE1D6; border-radius: 22px; aspect-ratio: 4 / 5; display: flex; align-items: flex-end; padding: 18px;">
+              <span style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #7A6C62; background: rgba(255,255,255,0.85); border-radius: 999px; padding: 7px 12px;">photo of addy</span>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+              <p style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0;">Previously — employment, not client work</p>
+              <div>
+                <p style="font-weight: 700; font-size: 17.5px; margin: 0 0 4px;">Snap Inc. — Software Engineer</p>
+                <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #5F534B;">Snapchat for Web, My AI, and Snap Ads. Web experiences and shared UI systems.</p>
+              </div>
+              <div>
+                <p style="font-weight: 700; font-size: 17.5px; margin: 0 0 4px;">Sandia National Laboratories — Software Engineer</p>
+                <p style="font-size: 16px; line-height: 1.6; margin: 0; color: #5F534B;">Built 200+ internal web pages and raised accessibility compliance from 35% to 95%.</p>
+              </div>
+              <button onClick="{{ openSnap }}" style="align-self: flex-start; background: transparent; color: #241C18; border: 1.5px solid #DDD0C3; border-radius: 999px; padding: 11px 17px; font-weight: 600; font-size: 14.5px; cursor: pointer; transition: background 180ms ease, transform 180ms ease;" style-hover="background: #F5EDE4; transform: translateY(-2px);">What that work involved →</button>
+            </div>
+          </div>
+        </section>
+
+        <section style="position: relative; overflow: hidden; background: #241C18; border-radius: 26px; padding: clamp(30px, 4.6vw, 60px); display: flex; flex-direction: column; gap: 18px; align-items: flex-start;">
+          <div style="position: absolute; bottom: -170px; left: -70px; width: 380px; height: 380px; border-radius: 999px; background: #2E251F; pointer-events: none;"></div>
+          <h2 style="position: relative; font-weight: 700; font-size: clamp(27px, 4vw, 44px); line-height: 1.06; letter-spacing: -0.025em; margin: 0; max-width: 22em; color: #FBF5EF;">Let's build something <span style="font-family: Newsreader, Georgia, serif; font-style: italic; font-weight: 400; color: #F6CB96;">better.</span></h2>
+          <p style="position: relative; font-size: 18.5px; line-height: 1.65; margin: 0; color: #D9CDC3; max-width: 32em;">Have an idea? Have a business that's becoming harder to run? Let's figure out what technology can do about it.</p>
+          <button onClick="{{ book }}" style="position: relative; background: #F6CB96; color: #241C18; border: none; border-radius: 999px; padding: 16px 28px; font-weight: 700; font-size: 17px; cursor: pointer; transition: transform 180ms ease, background 180ms ease;" style-hover="background: #FAD8AE; transform: translateY(-2px);">Book a Free Discovery Call</button>
+          <span style="position: relative; font-size: 15.5px; color: #A6968B;">No pitch. No jargon. Just a conversation.</span>
+        </section>
+      </div>
+    </sc-if>
+
+    <footer style="margin-top: 64px; padding-top: 24px; border-top: 1px solid #E4D9CD; display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center;">
+      <span style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: #9A8A7E;">numitechnologies.com</span>
+      <a href="mailto:addy@numitechnologies.com" style="font-weight: 600; font-size: 15px;">addy@numitechnologies.com</a>
+    </footer>
+  </main>
+
+  <sc-if value="{{ study }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeStudy }}" style="position: fixed; inset: 0; z-index: 80; background: rgba(36,28,24,0.4); backdrop-filter: blur(3px); overflow-y: auto; padding: 18px; display: flex; justify-content: center; align-items: flex-start;">
+      <div onClick="{{ stop }}" style="background: #FBF5EF; border-radius: 26px; width: 100%; max-width: 900px; padding: clamp(24px, 4vw, 46px); margin: 22px 0; animation: numiSheet 260ms ease both; box-shadow: 0 30px 80px rgba(36,28,24,0.26);">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin-bottom: 26px;">
+          <button onClick="{{ closeStudy }}" style="background: transparent; border: 1.5px solid #DDD0C3; border-radius: 999px; padding: 10px 17px; font-weight: 600; font-size: 14.5px; cursor: pointer; color: #241C18; transition: background 180ms ease;" style-hover="background: #F2E9E0;">← All work</button>
+          <div style="display: flex; gap: 4px; background: #F1E8DE; border-radius: 999px; padding: 4px;">
+            <button onClick="{{ layoutStory }}" style="background: {{ layoutStoryBg }}; color: {{ layoutStoryInk }}; border: none; border-radius: 999px; padding: 9px 15px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 180ms ease;">Story</button>
+            <button onClick="{{ layoutSplit }}" style="background: {{ layoutSplitBg }}; color: {{ layoutSplitInk }}; border: none; border-radius: 999px; padding: 9px 15px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 180ms ease;">Before / After</button>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; background: #F3EBE2; color: #6F6158; border-radius: 999px; padding: 7px 12px;">{{ study.kind }}</span>
+            <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; background: #F9DFC4; color: #8A5A2E; border-radius: 999px; padding: 7px 12px;">{{ study.tag }}</span>
+          </div>
+          <h2 style="font-weight: 700; font-size: clamp(26px, 4vw, 42px); line-height: 1.08; letter-spacing: -0.026em; margin: 0;">{{ study.headline }}</h2>
+          <p style="font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 19px; margin: 0; color: #C06A43;">{{ study.name }}</p>
+        </div>
+
+        <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 32px;">
+            <div style="background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 22px; padding: 24px; min-width: 0;">
+              <p style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0 0 16px;">Before</p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <sc-for list="{{ study.before }}" as="b" hint-placeholder-count="4">
+                  <p style="font-size: 16px; line-height: 1.55; margin: 0; color: #5F534B; background: #F7F1EA; border-radius: 12px; padding: 12px 14px;">{{ b }}</p>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background: #241C18; border-radius: 22px; padding: 24px; min-width: 0;">
+              <p style="font-weight: 800; font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: #DE8B67; margin: 0 0 16px;">After</p>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <sc-for list="{{ study.after }}" as="a" hint-placeholder-count="4">
+                  <p style="font-size: 16px; line-height: 1.55; margin: 0; color: #F3E9DF; background: #2E251F; border-radius: 12px; padding: 12px 14px;">{{ a }}</p>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; flex-direction: column; border-top: 1px solid #E4D9CD;">
+          <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 26px; padding: 22px 2px; border-bottom: 1px solid #E4D9CD;">
+            <p style="font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0; padding-top: 5px;">The problem</p>
+            <p style="font-size: 18px; line-height: 1.7; margin: 0;">{{ study.problem }}</p>
+          </div>
+          <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 26px; padding: 22px 2px; border-bottom: 1px solid #E4D9CD;">
+            <p style="font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0; padding-top: 5px;">The approach</p>
+            <p style="font-size: 18px; line-height: 1.7; margin: 0;">{{ study.approach }}</p>
+          </div>
+          <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 26px; padding: 22px 2px; border-bottom: 1px solid #E4D9CD;">
+            <p style="font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0; padding-top: 5px;">What we built</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{ study.solution }}" as="item" hint-placeholder-count="4">
+                <p style="font-size: 17.5px; line-height: 1.65; margin: 0;">{{ item }}</p>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 26px; padding: 22px 2px; border-bottom: 1px solid #E4D9CD;">
+            <p style="font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0; padding-top: 5px;">What changed</p>
+            <p style="font-size: 18px; line-height: 1.7; margin: 0;">{{ study.transformation }}</p>
+          </div>
+          <div style="display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 26px; padding: 22px 2px; border-bottom: 1px solid #E4D9CD;">
+            <p style="font-weight: 800; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #8A7A6E; margin: 0; padding-top: 5px;">Capabilities</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <sc-for list="{{ study.capabilities }}" as="cap" hint-placeholder-count="4">
+                <span style="font-weight: 600; font-size: 14px; background: #FFFFFF; border: 1px solid #EBE1D6; border-radius: 999px; padding: 9px 14px; color: #4A403A;">{{ cap }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: repeating-linear-gradient(135deg, #F3EBE2 0 10px, #F8F2EA 10px 20px); border: 1px solid #EBE1D6; border-radius: 22px; height: 250px; display: flex; align-items: flex-end; padding: 18px; margin-top: 26px;">
+          <span style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #7A6C62; background: rgba(255,255,255,0.9); border-radius: 999px; padding: 7px 12px;">{{ study.imageNote }}</span>
+        </div>
+
+        <sc-if value="{{ study.note }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size: 16px; line-height: 1.65; margin: 20px 0 0; color: #7A6C62; background: #F5EDE4; border-radius: 16px; padding: 18px 20px;">{{ study.note }}</p>
+        </sc-if>
+
+        <div style="margin-top: 32px; padding-top: 26px; border-top: 1px solid #E4D9CD; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
+          <p style="font-weight: 700; font-size: clamp(19px, 2.2vw, 25px); line-height: 1.25; letter-spacing: -0.018em; margin: 0; max-width: 20em;">Have something like this?</p>
+          <button onClick="{{ book }}" style="background: #241C18; color: #FBF5EF; border: none; border-radius: 999px; padding: 15px 25px; font-weight: 700; font-size: 16.5px; cursor: pointer; transition: transform 180ms ease, background 180ms ease;" style-hover="background: #3A2C24; transform: translateY(-2px);">Book a Free Discovery Call</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ booking }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 90; background: rgba(36,28,24,0.46); backdrop-filter: blur(4px); padding: 16px; display: flex; align-items: center; justify-content: center;">
+      <div style="background: #FBF5EF; border-radius: 24px; width: 100%; max-width: 980px; height: min(88vh, 860px); overflow: hidden; display: flex; flex-direction: column; animation: numiSheet 240ms ease both; box-shadow: 0 30px 80px rgba(36,28,24,0.3);">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 18px 14px 26px; border-bottom: 1px solid #EBE1D6;">
+          <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+            <p style="font-weight: 700; font-size: 19px; margin: 0;">Free discovery call</p>
+            <p style="font-size: 15px; margin: 0; color: #7A6C62;">No pitch. No jargon. Just a conversation.</p>
+          </div>
+          <button onClick="{{ closeBooking }}" style="background: transparent; border: 1.5px solid #DDD0C3; border-radius: 999px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; color: #241C18; flex: 0 0 auto; transition: background 180ms ease;" style-hover="background: #F2E9E0;">×</button>
+        </div>
+        <iframe src="{{ calendlySrc }}" title="Book a discovery call" style="border: none; width: 100%; flex: 1 1 auto; background: #FBF5EF;"></iframe>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;calendlyUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://calendly.com/numitechnologiesadmin/30min&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;bookingMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;overlay&quot;,&quot;newTab&quot;],&quot;default&quot;:&quot;overlay&quot;,&quot;tsType&quot;:&quot;'overlay' | 'newTab'&quot;},&quot;showEnterpriseInWork&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const STUDIES = [
+  {
+    id: 'clinic',
+    name: 'Wellness clinic · intake, payment & scheduling',
+    kind: 'Running something existing',
+    tag: 'In progress',
+    headline: '“Every new patient takes five separate steps and three of them land in my inbox.”',
+    teaser: 'Intake, payment, and scheduling lived in three disconnected places. We are rebuilding it as one flow.',
+    problem: 'A clinic owner was collecting health and wellness information, taking payment, and booking appointments through three separate processes. A patient submitted their information, waited for the owner to review it, received a payment link, paid somewhere else, then scheduled somewhere else again. Every booking created administrative work, and every step was a place to drop out.',
+    approach: 'The obvious request was “build me a form.” Instead we mapped the whole customer workflow, beginning to end, and looked for the seams — the waiting, the manual review, the second and third handoff. The problem was never the form. It was that nothing was connected.',
+    solution: ['A single guided flow that takes a patient from information to payment to a booked appointment without leaving the experience.', 'Intake information captured once and carried forward, rather than re-entered or re-sent.', 'Payment and scheduling connected to the same flow, so a completed booking is a completed booking.', 'Administrative steps removed from the owner\u2019s day rather than moved around it.'],
+    transformation: 'The intent is fewer steps for patients, less back-and-forth for the owner, and less administrative work between a booking and an appointment. This project is underway, so we are describing what it is designed to do — not results we have measured yet.',
+    capabilities: ['Product Definition', 'Workflow Design', 'UX/UI', 'Web Application', 'Payments', 'Scheduling', 'Integrations'],
+    imageNote: 'clinic flow screens',
+    note: 'Currently in build. Client kept anonymous, and this story is about administrative workflow only — it makes no claims about care or clinical outcomes. Measured results will be added once the project is live.',
+    before: ['Patient submits health information', 'Owner receives and reviews it manually', 'Owner sends a separate payment link', 'Patient pays in another flow', 'Patient schedules somewhere else again'],
+    after: ['One guided flow, start to finish', 'Information captured once', 'Payment in the same experience', 'Appointment booked at the end', 'Owner\u2019s inbox out of the loop']
+  },
+  {
+    id: 'pitch',
+    name: 'Pitch Portal · white-labeled platform for music publishers',
+    kind: 'Running something existing',
+    tag: 'Operational platform',
+    headline: '“Our whole pitching process lives in iMessage, Dropbox, and email — and nobody knows what happened to a song.”',
+    teaser: 'Song pitches were scattered across chat threads and file links. We centralized the workflow publishers actually use.',
+    problem: 'Music publishers were pitching songs across iMessage, Dropbox, email, and loose files. Submissions arrived unstructured and without context, so A&Rs received music with no idea what they were listening to or why. Managers had no visibility into whether recipients had opened anything at all. The work still got done — it just cost a lot of chasing.',
+    approach: 'We treated it as an operations problem rather than a file-sharing problem. That meant following a pitch through its real life — who sends it, who receives it, what they need to know, what the sender needs to find out afterward — and designing infrastructure around that path.',
+    solution: ['A secure, white-labeled submission platform publishers can present as their own.', 'Centralized catalog management with metadata attached to every upload.', 'Branded pitch rooms, so a recipient sees a considered presentation instead of a file dump.', 'Secure expiring links for controlled sharing.', 'Listener engagement analytics, so managers can see what is actually being heard.'],
+    transformation: 'A fragmented, untracked pitching process became a centralized system built around how publishers already work. Context travels with the music, sharing is controlled, and the sender finally knows what happened after they hit send.',
+    capabilities: ['Product Design', 'Web Application', 'Platform Architecture', 'Analytics', 'Integrations', 'Access & Security'],
+    imageNote: 'pitch portal screens',
+    note: '',
+    before: ['Pitches scattered across iMessage and email', 'Files in Dropbox with no context', 'Unstructured submissions', 'No idea if a song was ever opened', 'Constant manual follow-up'],
+    after: ['One branded platform', 'Metadata attached to every upload', 'Branded pitch rooms per recipient', 'Engagement analytics on every link', 'Secure links that expire on their own']
+  },
+  {
+    id: 'champagne',
+    name: 'Champagne Therapy · official website',
+    kind: 'Starting something new',
+    tag: 'Digital presence',
+    headline: '“We have a roster, a catalog, and releases — and no proper home for any of it.”',
+    teaser: 'A music publishing label founded by a Grammy-winning songwriter and producer needed a polished public presence.',
+    problem: 'Champagne Therapy, a music publishing label founded by Grammy Award-winning songwriter and producer Tommy Brown, needed a polished digital home. Its artists, catalog, and releases had no single public-facing place that matched the standard of the work.',
+    approach: 'Design for the way people actually arrive — curious about an artist, a credit, or a release — and organize the label\u2019s roster and catalog into something coherent, quick to browse, and unmistakably its own.',
+    solution: ['Designed and developed the official responsive website.', 'Structured the roster, catalog, and releases into one cohesive presentation.', 'Built for phones first, since that is where music discovery happens.'],
+    transformation: 'The label has a public home that presents its artists and releases properly, and a structure that new signings and releases slot into without a redesign.',
+    capabilities: ['Web Design', 'UX/UI', 'Responsive Development', 'Digital Experience'],
+    imageNote: 'champagne therapy screens',
+    note: '',
+    before: ['Roster spread across other platforms', 'No single public home', 'Releases hard to browse', 'Presentation below the standard of the work'],
+    after: ['One official site', 'Roster and catalog organized', 'Releases easy to find', 'Presentation that matches the label']
+  },
+  {
+    id: 'snap',
+    name: 'Snap Inc. & Sandia National Laboratories',
+    kind: 'Employment, not client work',
+    tag: 'Built at scale',
+    headline: 'Before NUMI: building software used by a very large number of people at once.',
+    teaser: 'Enterprise experience — the engineering background behind NUMI, not a client project.',
+    problem: 'The fair question a business owner asks a new company is whether the person behind it has actually shipped software that matters. This is that answer. It is employment history, not NUMI client work.',
+    approach: 'At Snap Inc., work meant shipping into a product with an enormous audience and very little tolerance for breakage — which is where the habits show up: shared components, documentation, browser-level edge cases, and shipping carefully.',
+    solution: ['Snapchat for Web — a responsive emoji picker for web chat, and browser-level camera and microphone permission UI across Safari and Chrome.', 'My AI — LaTeX and Markdown rendering for formatted AI responses, plus shared UI component documentation and systems.', 'Snap Ads — contributed to Instant Create, an advertising tool designed to help small businesses launch campaigns more quickly.', 'Sandia National Laboratories — built 200+ internal web pages and raised accessibility compliance from 35% to 95%.'],
+    transformation: 'The engineering standard NUMI works to comes from these environments: real users, real scale, real review. Small projects benefit from it more than large ones do.',
+    capabilities: ['Front-End Engineering', 'UI Systems', 'Accessibility', 'Cross-Browser Platform Work', 'Internal Tools'],
+    imageNote: 'optional: neutral workplace photo',
+    note: 'Snap Inc. and Sandia National Laboratories were employers, not NUMI clients. Listed here as engineering background only.',
+    before: [],
+    after: []
+  }
+];
+
+class Component extends DCLogic {
+  state = { view: 'home', situation: null, studyId: null, booking: false, layout: 'story', navH: 68 };
+  navRef = React.createRef();
+
+  componentDidMount() {
+    const measure = () => {
+      const el = this.navRef.current;
+      if (!el) return;
+      const h = Math.round(el.getBoundingClientRect().height);
+      if (h && h !== this.state.navH) this.setState({ navH: h });
+    };
+    measure();
+    if (typeof ResizeObserver !== 'undefined' && this.navRef.current) {
+      this._ro = new ResizeObserver(measure);
+      this._ro.observe(this.navRef.current);
+    }
+    this._resize = measure;
+    window.addEventListener('resize', measure);
+
+    this._key = (e) => {
+      if (e.key !== 'Escape') return;
+      if (this.state.booking) this.setState({ booking: false });
+      else if (this.state.studyId) this.setState({ studyId: null });
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._key);
+    if (this._resize) window.removeEventListener('resize', this._resize);
+    if (this._ro) this._ro.disconnect();
+  }
+
+  go(view) { this.setState({ view, studyId: null }); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  openStudy(id) { this.setState({ view: 'work', studyId: id, layout: 'story' }); }
+
+  renderVals() {
+    const v = this.state.view;
+    const ink = (k) => (v === k ? '#241C18' : '#7A6C62');
+    const line = (k) => (v === k ? '#DE8B67' : 'transparent');
+    const study = STUDIES.find((s) => s.id === this.state.studyId) || null;
+    const url = this.props.calendlyUrl ?? 'https://calendly.com/numitechnologiesadmin/30min';
+    const book = () => {
+      if ((this.props.bookingMode ?? 'overlay') === 'newTab') window.open(url, '_blank', 'noopener');
+      else this.setState({ booking: true });
+    };
+    const studies = (this.props.showEnterpriseInWork ?? true) ? STUDIES : STUDIES.filter((s) => s.id !== 'snap');
+
+    return {
+      navRef: this.navRef,
+      mainTop: (this.state.navH + 24) + 'px',
+      isHome: v === 'home', isDo: v === 'do', isWork: v === 'work', isProcess: v === 'process', isAbout: v === 'about',
+      inkHome: ink('home'), inkDo: ink('do'), inkWork: ink('work'), inkProcess: ink('process'), inkAbout: ink('about'),
+      lineHome: line('home'), lineDo: line('do'), lineWork: line('work'), lineProcess: line('process'), lineAbout: line('about'),
+      goHome: () => this.go('home'),
+      viewHome: () => this.go('home'), viewDo: () => this.go('do'), viewWork: () => this.go('work'),
+      viewProcess: () => this.go('process'), viewAbout: () => this.go('about'),
+      isNew: this.state.situation === 'new', notNew: this.state.situation !== 'new',
+      isExisting: this.state.situation === 'existing', notExisting: this.state.situation !== 'existing',
+      pickNew: () => this.setState((s) => ({ situation: s.situation === 'new' ? null : 'new' })),
+      pickExisting: () => this.setState((s) => ({ situation: s.situation === 'existing' ? null : 'existing' })),
+      studies: studies.map((s) => Object.assign({}, s, { open: () => this.openStudy(s.id) })),
+      study,
+      openPitch: (e) => { if (e) e.stopPropagation(); this.openStudy('pitch'); },
+      openClinic: (e) => { if (e) e.stopPropagation(); this.openStudy('clinic'); },
+      openSnap: () => this.openStudy('snap'),
+      closeStudy: () => this.setState({ studyId: null }),
+      stop: (e) => e.stopPropagation(),
+      isSplit: this.state.layout === 'split' && !!study && study.before.length > 0,
+      layoutStory: () => this.setState({ layout: 'story' }),
+      layoutSplit: () => this.setState({ layout: 'split' }),
+      layoutStoryBg: this.state.layout === 'story' ? '#FFFFFF' : 'transparent',
+      layoutStoryInk: this.state.layout === 'story' ? '#241C18' : '#7A6C62',
+      layoutSplitBg: this.state.layout === 'split' ? '#FFFFFF' : 'transparent',
+      layoutSplitInk: this.state.layout === 'split' ? '#241C18' : '#7A6C62',
+      booking: this.state.booking,
+      closeBooking: () => this.setState({ booking: false }),
+      calendlySrc: url + '?hide_gdpr_banner=1&background_color=fbf5ef&text_color=241c18&primary_color=de8b67',
+      book
+    };
+  }
+}
+</script>
+</body>
+</html>

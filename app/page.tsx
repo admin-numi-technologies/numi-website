@@ -1,69 +1,148 @@
-import Image from "next/image";
+'use client';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
+import Nav from '@/app/_components/nav';
+import Footer from '@/app/_components/footer';
+import HomeSection from '@/app/_components/home-section';
+import DoSection from '@/app/_components/do-section';
+import WorkSection from '@/app/_components/work-section';
+import ProcessSection from '@/app/_components/process-section';
+import AboutSection from '@/app/_components/about-section';
+import StudyModal from '@/app/_components/study-modal';
+import BookingModal from '@/app/_components/booking-modal';
+import { STUDIES } from '@/app/_lib/studies';
+import type { Situation, View } from '@/app/_lib/types';
+
+const CALENDLY_URL = 'https://calendly.com/numitechnologiesadmin/30min';
+const BOOKING_MODE: 'overlay' | 'newTab' = 'overlay';
+const SHOW_ENTERPRISE_IN_WORK = true;
 
 export default function Home() {
+  const [view, setView] = useState<View>('home');
+  const [situation, setSituation] = useState<Situation>(null);
+  const [studyId, setStudyId] = useState<string | null>(null);
+  const [booking, setBooking] = useState(false);
+  const [layout, setLayout] = useState<'story' | 'split'>('story');
+  const [navH, setNavH] = useState(68);
+  const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const measure = () => {
+      const el = navRef.current;
+      if (!el) return;
+      const h = Math.round(el.getBoundingClientRect().height);
+      setNavH((prev) => (h && h !== prev ? h : prev));
+    };
+    measure();
+
+    let ro: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== 'undefined' && navRef.current) {
+      ro = new ResizeObserver(measure);
+      ro.observe(navRef.current);
+    }
+    window.addEventListener('resize', measure);
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setBooking((wasBooking) => {
+        if (wasBooking) return false;
+        setStudyId(null);
+        return wasBooking;
+      });
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('keydown', onKeyDown);
+      ro?.disconnect();
+    };
+  }, []);
+
+  const go = useCallback((next: View) => {
+    setView(next);
+    setStudyId(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const openStudy = useCallback((id: string) => {
+    setView('work');
+    setStudyId(id);
+    setLayout('story');
+  }, []);
+
+  const book = useCallback(() => {
+    if (BOOKING_MODE === 'newTab')
+      window.open(CALENDLY_URL, '_blank', 'noopener');
+    else setBooking(true);
+  }, []);
+
+  const study = STUDIES.find((s) => s.id === studyId) ?? null;
+  const studies = SHOW_ENTERPRISE_IN_WORK
+    ? STUDIES
+    : STUDIES.filter((s) => s.id !== 'snap');
+  const calendlySrc = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=fbf5ef&text_color=241c18&primary_color=de8b67`;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="font-sans text-[#2A211C] bg-[#FBF5EF] min-h-screen">
+      <Nav navRef={navRef} view={view} onNavigate={go} onBook={book} />
+
+      <main
+        className="px-[0px] pb-16 max-w-[1180px] mx-auto"
+        style={{ paddingTop: navH + 24 }}
+      >
+        {view === 'home' && (
+          <HomeSection
+            situation={situation}
+            onPickNew={() => setSituation((s) => (s === 'new' ? null : 'new'))}
+            onPickExisting={() =>
+              setSituation((s) => (s === 'existing' ? null : 'existing'))
+            }
+            onBook={book}
+            onOpenPitch={(e) => {
+              e.stopPropagation();
+              openStudy('pitch');
+            }}
+            onOpenClinic={(e) => {
+              e.stopPropagation();
+              openStudy('clinic');
+            }}
+            onNavigate={go}
+          />
+        )}
+
+        {view === 'do' && <DoSection onBook={book} />}
+
+        {view === 'work' && (
+          <WorkSection studies={studies} onOpenStudy={openStudy} />
+        )}
+
+        {view === 'process' && <ProcessSection />}
+
+        {view === 'about' && (
+          <AboutSection onBook={book} onOpenSnap={() => openStudy('snap')} />
+        )}
+
+        <Footer />
       </main>
+
+      {study && (
+        <StudyModal
+          study={study}
+          layout={layout}
+          onClose={() => setStudyId(null)}
+          onLayoutStory={() => setLayout('story')}
+          onLayoutSplit={() => setLayout('split')}
+          onBook={book}
+        />
+      )}
+
+      {booking && (
+        <BookingModal
+          calendlySrc={calendlySrc}
+          onClose={() => setBooking(false)}
+        />
+      )}
     </div>
   );
 }

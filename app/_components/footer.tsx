@@ -4,8 +4,11 @@ export default function Footer() {
       <span className="font-extrabold text-[11.5px] tracking-[0.18em] uppercase text-[#9A8A7E]">
         numitechnologies.com
       </span>
-      <a href="mailto:addy@numitechnologies.com" className="font-semibold text-[15px]">
-        addy@numitechnologies.com
+      <a
+        href="mailto:numitechnologiesadmin@gmail.com"
+        className="font-semibold text-[15px]"
+      >
+        numitechnologiesadmin@gmail.com
       </a>
     </footer>
   );

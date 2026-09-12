@@ -88,8 +88,11 @@ export default function Home() {
       <Nav navRef={navRef} view={view} onNavigate={go} onBook={book} />
 
       <main
-        className="px-[0px] pb-16 max-w-[1180px] mx-auto"
-        style={{ paddingTop: navH + 24 }}
+        className="px-[0px] pb-16 mx-auto"
+        style={{
+          width: '90vw',
+          paddingTop: navH + 24,
+        }}
       >
         {view === 'home' && (
           <HomeSection

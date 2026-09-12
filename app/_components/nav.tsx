@@ -28,7 +28,12 @@ export default function Nav({
       ref={navRef}
       className="fixed top-0 left-0 right-0 z-60 bg-[#FBF5EF]/92 backdrop-blur-md border-b border-[#EBE1D6]"
     >
-      <div className="max-w-[1180px] mx-auto px-[22px] py-[14px] flex items-center gap-4 flex-nowrap">
+      <div
+        className="mx-auto px-[22px] py-[14px] flex items-center gap-4 flex-nowrap"
+        style={{
+          width: '90vw',
+        }}
+      >
         <button
           onClick={() => onNavigate('home')}
           className="bg-transparent border-none p-0 cursor-pointer flex items-center shrink-0"

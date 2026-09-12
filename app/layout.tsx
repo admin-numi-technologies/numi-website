@@ -19,6 +19,23 @@ export const metadata: Metadata = {
   title: 'Numi — Build. Improve. Grow.',
   description:
     'NUMI helps businesses turn ideas into products — and makes existing businesses easier to run.',
+  openGraph: {
+    title: 'Numi',
+    description:
+      'NUMI helps businesses turn ideas into products — and makes existing businesses easier to run.',
+    url: 'https://numitechnologies.vercel.app',
+    siteName: 'Home | Numi Technologies',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/tqnmpns3/image/upload/v1789180791/numi-message-preview.png', // Must be an absolute URL
+        width: 1200,
+        height: 630,
+        alt: 'Numi Technologies Image',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

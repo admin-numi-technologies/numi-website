@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import type { Study } from "@/app/_lib/studies";
+import type { Study } from '@/app/_lib/studies';
 
-type Layout = "story" | "split";
+type Layout = 'story' | 'split';
 
 const tabBtn = (active: boolean) =>
   `border-none rounded-full px-[15px] py-[9px] font-semibold text-sm cursor-pointer transition-colors duration-[180ms] ${
-    active ? "bg-white text-[#241C18]" : "bg-transparent text-[#7A6C62]"
+    active ? 'bg-white text-[#241C18]' : 'bg-transparent text-[#7A6C62]'
   }`;
 
 const detailRow =
-  "grid [grid-template-columns:minmax(0,190px)_minmax(0,1fr)] gap-x-[26px] gap-y-1.5 py-[22px] px-0.5 border-b border-[#E4D9CD]";
+  'grid [grid-template-columns:minmax(0,190px)_minmax(0,1fr)] gap-x-[26px] gap-y-1.5 py-[22px] px-0.5 border-b border-[#E4D9CD]';
 
 export default function StudyModal({
   study,
@@ -27,7 +27,7 @@ export default function StudyModal({
   onLayoutSplit: () => void;
   onBook: () => void;
 }) {
-  const isSplit = layout === "split" && study.before.length > 0;
+  const isSplit = layout === 'split' && study.before.length > 0;
 
   return (
     <div
@@ -46,10 +46,16 @@ export default function StudyModal({
             ← All work
           </button>
           <div className="flex gap-1 bg-[#F1E8DE] rounded-full p-1">
-            <button onClick={onLayoutStory} className={tabBtn(layout === "story")}>
+            <button
+              onClick={onLayoutStory}
+              className={tabBtn(layout === 'story')}
+            >
               Story
             </button>
-            <button onClick={onLayoutSplit} className={tabBtn(layout === "split")}>
+            <button
+              onClick={onLayoutSplit}
+              className={tabBtn(layout === 'split')}
+            >
               Before / After
             </button>
           </div>
@@ -67,7 +73,9 @@ export default function StudyModal({
           <h2 className="font-bold text-[clamp(26px,4vw,42px)] leading-[1.08] tracking-[-0.026em] m-0">
             {study.headline}
           </h2>
-          <p className="font-serif italic text-[19px] m-0 text-[#C06A43]">{study.name}</p>
+          <p className="font-serif italic text-[19px] m-0 text-[#C06A43]">
+            {study.name}
+          </p>
         </div>
 
         {isSplit && (
@@ -134,7 +142,9 @@ export default function StudyModal({
             <p className="font-extrabold text-xs tracking-[0.16em] uppercase text-[#8A7A6E] m-0 pt-[5px]">
               What changed
             </p>
-            <p className="text-[18px] leading-[1.7] m-0">{study.transformation}</p>
+            <p className="text-[18px] leading-[1.7] m-0">
+              {study.transformation}
+            </p>
           </div>
           <div className={detailRow}>
             <p className="font-extrabold text-xs tracking-[0.16em] uppercase text-[#8A7A6E] m-0 pt-[5px]">
@@ -151,15 +161,6 @@ export default function StudyModal({
               ))}
             </div>
           </div>
-        </div>
-
-        <div
-          className="border border-[#EBE1D6] rounded-[22px] h-[250px] flex items-end p-[18px] mt-[26px]"
-          style={{ background: "repeating-linear-gradient(135deg, #F3EBE2 0 10px, #F8F2EA 10px 20px)" }}
-        >
-          <span className="font-mono text-xs text-[#7A6C62] bg-white/90 rounded-full px-3 py-[7px]">
-            {study.imageNote}
-          </span>
         </div>
 
         {study.note && (

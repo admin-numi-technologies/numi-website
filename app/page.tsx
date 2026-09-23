@@ -13,7 +13,7 @@ import BookingModal from '@/app/_components/booking-modal';
 import { STUDIES } from '@/app/_lib/studies';
 import type { Situation, View } from '@/app/_lib/types';
 
-const CALENDLY_URL = 'https://calendly.com/numitechnologiesadmin/30min';
+const CALENDLY_URL = 'https://calendly.com/addy-numitechnologies/30min';
 const BOOKING_MODE: 'overlay' | 'newTab' = 'overlay';
 const SHOW_ENTERPRISE_IN_WORK = true;
 
